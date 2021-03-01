@@ -19,3 +19,20 @@ content2 = politicians_info.read()
 col = Traitement.text_traitement(content)
 col_author = Traitement.author_traitement(content2)
 
+mat_job = np.array([d.info["job"] for d in col])
+ind_pers = np.where(mat_job != '')[0]
+
+mat = np.array([d.info["counters"] for d in np.array(col)[ind_pers]], dtype = np.float32)
+
+
+#barely true, false, half true, mostly true, pant on fire
+
+t1 = mat[:,[1,4]].sum(axis = 1) 
+t2 = (mat.sum(axis = 1) + 1e-4)
+bestwrong = np.argmax(t1 / t2)
+bestwrong2 = np.argmax(t1)
+wrong  = col[ind_pers[bestwrong]]
+wrong2 = col[ind_pers[bestwrong2]]
+
+bestliar = np.argmax(mat[:,4])
+liar = col[ind_pers[bestliar]]

@@ -13,26 +13,38 @@ class Statement(object):
     def __init__(self,fake_note,
                  statement,subject,auteur,job,state,party,counters,context,
                  sentiment_score,sentiment_magnitude,sentiments,sentiment_code):
-        
+        """
+        Stock les informations du text dans un dictionnaire "info"
+        fake note : barely true, false, half true, mostly true, pant on fire
+        statement : dictionnaire du text
+        statement2 : dictionnaire du text traité par PorterStemmer
+        counters : 5 valeurs, une part comptage de fake note
+        sentiment_score : NEGATIVE ou POSITIVE
+        sentiments_magnitude : un réel en str
+        sentiments : 5 valeurs
+        sentiment_code : '_NEF_\n' ou '_POS_\n'
+        """
         st = filter(acceptable_chars, str.lower(statement))
         st = "".join(st)
         ps = tr.PorterStemmer()
         statement_2 = ps.getTextRepresentation(st) # statement with stem and stopword list
         statement = st.split()
         
-        self.info = {"fake_note" : fake_note,\
-                     "statement" : statement,\
-                     "subject" : str.lower(subject.replace("\"","")).split(","),\
-                     "statement_2" : statement_2,\
-                     "author" : str.lower(auteur).split("-"),\
-                     "job" : job.replace("\"",""),\
-                     "state" : state,\
-                     "party" : party,\
-                     "counters" : counters,\
-                     "context" : context,\
-                     "sentiment_score" : sentiment_score,\
-                     "sentiment_magnitude": sentiment_magnitude,\
-                     "sentiments" : sentiments,\
+        self.info = {"fake_note" : fake_note,
+                     "statement" : statement,
+                     "statement_2" : statement_2,
+                     "subject" : str.lower(subject.replace("\"","")).split(","),
+                     "context" : context,
+                     
+                     "author" : str.lower(auteur).split("-"),
+                     "job" : job.replace("\"",""),
+                     "state" : state,
+                     "party" : party,
+                     "counters" : counters,
+                     
+                     "sentiment_score" : sentiment_score,
+                     "sentiment_magnitude": sentiment_magnitude,
+                     "sentiments" : sentiments,
                      "sentiment_code": sentiment_code}
         
         
@@ -55,15 +67,15 @@ class Politician:
                  sex, birthplace, birthday, age, instagram_username, 
                  political_party):
         
-        self.info = {"name" : str.lower(name).split(" "),\
-                     "twitter" : twitter_username,\
-                     "account_start_time" : account_start_time,\
-                     "account_id" : account_id,\
-                     "sex" : sex,\
-                     "birthplace" : birthplace,\
-                     "birthday" : birthday,\
-                     "age" : age,\
-                     "instagram_username" : instagram_username,\
+        self.info = {"name" : str.lower(name).split(" "),
+                     "twitter" : twitter_username,
+                     "account_start_time" : account_start_time,
+                     "account_id" : account_id,
+                     "sex" : sex,
+                     "birthplace" : birthplace,
+                     "birthday" : birthday,
+                     "age" : age,
+                     "instagram_username" : instagram_username,
                      "political_party" : political_party}
         
         
