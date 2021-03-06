@@ -3,3 +3,5 @@ __pycache__
 .spyproject/
 
 .~lock.Carnet_de_bord.odt#
+
+*.odt#

@@ -60,7 +60,42 @@ class Statement(object):
     
     def length_unique_stem(self):
         return len(self.info["statement_2"])
+
+def make_dictio(statements, politicians = None):
+    """
+    Prend une liste de Statement et une liste de Politican.
+    Crée deux dictionnaires pour chaque liste rangé par nom
+    """
+    dictio= {}
+    dictio2 = {}
+    num = ['true','barely-true', 'false', 'half-true', 'mostly-true', 'pants-fire']
     
+    for doc in range(len(statements)):
+        if statements[doc].info["job"] != '':
+            
+            author = " ".join(statements[doc].info['author'])
+            try:
+                dictio[author]
+                
+            except KeyError:
+                dictio[author] = {}
+                dictio[author]["party"] = statements[doc].info["party"]
+                dictio[author]["job"]   = statements[doc].info["job"]
+                dictio[author]["state"] = statements[doc].info["state"]
+                dictio[author]["true_score"] = [0]*6
+                dictio[author]["score"] = np.float32(statements[doc].info["counters"])
+                dictio[author]["news"]  = np.array([], dtype = np.intc)
+                        
+            n = num.index(statements[doc].info['fake_note'])
+            dictio[author]["true_score"][n] += 1
+            dictio[author]["news"] = np.append(dictio[author]["news"], doc)
+            
+    if politicians:
+        for doc in politicians:
+            author = " ".join(doc.info.pop('name'))
+            dictio2[author] = doc.info
+        
+    return dictio, dictio2
     
 class Politician:
     def __init__(self,name, twitter_username, account_start_time, account_id,
