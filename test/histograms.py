@@ -30,7 +30,7 @@ dict_statement, dict_politician = make_dictio(statements, politicians)
 both = set(dict_statement.keys()).intersection(dict_politician.keys())
 
 dictio = {'author' : [], 'job' : [], 'state' : [], 'true_score' : [],\
-          'score' : []}
+          'score' : [], 'nbr_publi' : []}
 
 for author, values in dict_statement.items():
     dictio['author'] += [author]
@@ -38,13 +38,17 @@ for author, values in dict_statement.items():
     dictio['state']  += [values['state']]
     dictio['true_score']    += [values['true_score']]
     dictio['score']    += [values['score']]
+    dictio['nbr_publi'] += [len(values['news'])]
 
-#dictio['true_score'] = np.array(dictio['true_score']) 
-#dictio['score'] = np.array(dictio['score'] ) 
+dictio['true_score'] = np.array(dictio['true_score']) 
+dictio['score'] = np.array(dictio['score'] ) 
 
-df = pd.DataFrame(data = dictio)
+_, nbr_fois_job = np.unique(dictio['job'], return_counts = True)
+_, nbr_fois_state = np.unique(dictio['state'], return_counts = True)
+_, nbr_fois_publi = np.unique(dictio['nbr_publi'], return_counts = True)
 
+f, ax = plt.subplots(3)
 
-sns.set_theme(style="darkgrid")
-
-sns.displot(df, x="state", col="job",binwidth=3, height=3)
+ax[0].hist(nbr_fois_job)
+ax[1].hist(nbr_fois_state)
+ax[2].hist(nbr_fois_publi)
