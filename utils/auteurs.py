@@ -82,7 +82,7 @@ def make_dictio(statements, politicians = None):
                 dictio[author]["party"] = statements[doc].info["party"]
                 dictio[author]["job"]   = statements[doc].info["job"]
                 dictio[author]["state"] = statements[doc].info["state"]
-                dictio[author]["true_score"] = [0]*6
+                dictio[author]["true_score"] = np.zeros(6)
                 dictio[author]["score"] = np.float32(statements[doc].info["counters"])
                 dictio[author]["news"]  = np.array([], dtype = np.intc)
                         
