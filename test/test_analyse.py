@@ -6,7 +6,7 @@ Created on Mon Mar  1 18:35:35 2021
 """
 
 
-from auteurs import Traitement
+from utils.auteurs import Traitement
 import numpy as np
 
 file1 = open("./data/test_final.csv", encoding="utf8")
@@ -26,6 +26,8 @@ col_author = Traitement.author_traitement(content2)
 auteur_dic = dict()
 party_dic = dict()
 job_dic = dict()
+
+
 
 for doc in col:
     try:
