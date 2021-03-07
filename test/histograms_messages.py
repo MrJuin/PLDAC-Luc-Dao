@@ -133,15 +133,19 @@ ax.set_xlabel("Valeurs")
 ax.set_ylabel("Sentiments")
 plt.show()
 '''
+
 # nombre de sujets avec un certain nombre de messages
 plt.rcdefaults()
 fig, ax = plt.subplots(1,1, figsize = (15,10))
 
+sort = np.argsort(list(dictio_context_inv.keys()))[::-1]
+k = np.array(list(dictio_context_inv.keys()))[sort]
+v = np.array(list(dictio_context_inv.values()))[sort]
 space = 1
 y_pos = np.arange(0,len(dictio_context_inv)*space,space)
-ax.barh(y_pos, list(dictio_context_inv.values()), color = 'red')
+ax.barh(y_pos, v, color = 'red')
 ax.set_yticks(y_pos)
-ax.set_yticklabels( list(dictio_context_inv.keys()), rotation = 0)
+ax.set_yticklabels( k, rotation = 0)
 ax.set_title("Nombre de contextes avec un certains nombre de messages associés")
 ax.set_xlabel("Nombre de contextes")
 ax.set_ylabel("Nombre de messages")
