@@ -21,6 +21,8 @@ class Statement(object):
         if re.search("pennsylvania",state):
             return "pennsylvania"
         if re.search("washington",state):
+            if re.search("d.c.",state):
+                return "washington DC"
             return "washington"
         return state.strip()
     
