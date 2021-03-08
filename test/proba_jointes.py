@@ -44,11 +44,12 @@ def make_data(statements):
                     subjects[sub][4] += 1
                 except KeyError:
                     subjects[sub] = [0,0,0,0,1,0]
-           elif state.info['fake_note'] == 'pant-on-fire': 
+           elif state.info['fake_note'] == 'pants-fire': 
                try:
                     subjects[sub][5] += 1
                except KeyError:
                     subjects[sub] = [0,0,0,0,0,1]
+                    
    for s,notes in subjects.items():
        dictio['subjects'] += [s]
        dictio['true_count'] += [notes[0]]
