@@ -21,7 +21,7 @@ class Statement(object):
         counters : 5 valeurs, une part comptage de fake note
         sentiment_score : NEGATIVE ou POSITIVE
         sentiments_magnitude : un réel en str
-        sentiments : 5 valeurs
+        sentiments : "anger, fear, joy, disgust, sad"
         sentiment_code : '_NEF_\n' ou '_POS_\n'
         """
         st = filter(acceptable_chars, str.lower(statement))
@@ -61,7 +61,7 @@ class Statement(object):
     def length_unique_stem(self):
         return len(self.info["statement_2"])
 
-def make_dictio(statements, politicians = None):
+def make_dictio_author(statements, politicians = None):
     """
     Prend une liste de Statement et une liste de Politican.
     Crée deux dictionnaires pour chaque liste rangé par nom
@@ -82,12 +82,12 @@ def make_dictio(statements, politicians = None):
                 dictio[author]["party"] = statements[doc].info["party"]
                 dictio[author]["job"]   = statements[doc].info["job"]
                 dictio[author]["state"] = statements[doc].info["state"]
-                dictio[author]["true_score"] = np.zeros(6)
-                dictio[author]["score"] = np.float32(statements[doc].info["counters"])
+                dictio[author]["score"] = np.zeros(6)
+                dictio[author]["counter"] = np.float32(statements[doc].info["counters"])
                 dictio[author]["news"]  = np.array([], dtype = np.intc)
                         
             n = num.index(statements[doc].info['fake_note'])
-            dictio[author]["true_score"][n] += 1
+            dictio[author]["score"][n] += 1
             dictio[author]["news"] = np.append(dictio[author]["news"], doc)
             
     if politicians:
@@ -97,6 +97,22 @@ def make_dictio(statements, politicians = None):
         
     return dictio, dictio2
     
+def make_author_database(statements):
+    dict_statement, dict_politician = make_dictio_author(statements, None)
+    dictio = {'author' : [], 'job' : [], 'state' : [], 'counter' : [],\
+              'score' : [], 'nbr_publi' : [], 'party' : []}
+    for author, values in dict_statement.items():
+        dictio['author'] += [author]
+        dictio['job']    += [values['job']]
+        dictio['state']  += [values['state']]
+        dictio['score']    += [values['score']]
+        dictio['counter']    += [values['counter']]
+        dictio['nbr_publi'] += [len(values['news'])]
+        dictio["party"] += [values['party']]
+    
+    dictio['score'] = np.array(dictio['score'] ) 
+    return dictio
+
 class Politician:
     def __init__(self,name, twitter_username, account_start_time, account_id,
                  sex, birthplace, birthday, age, instagram_username, 
