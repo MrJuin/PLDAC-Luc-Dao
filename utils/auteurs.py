@@ -10,6 +10,20 @@ import numpy as np
 import utils.TextRepresenter as tr
 
 class Statement(object):
+    def state_traitement(state):
+        state = state.lower()
+        if re.search("virgi", state):
+            return "virginia"
+        if re.match("tex", state):
+            return "texas"
+        if re.match("tennesse", state):
+            return "tennesse"
+        if re.search("pennsylvania",state):
+            return "pennsylvania"
+        if re.search("washington",state):
+            return "washington"
+        return state.strip()
+    
     def __init__(self,fake_note,
                  statement,subject,auteur,job,state,party,counters,context,
                  sentiment_score,sentiment_magnitude,sentiments,sentiment_code):
@@ -37,8 +51,8 @@ class Statement(object):
                      "context" : context,
                      
                      "author" : str.lower(auteur).split("-"),
-                     "job" : job.replace("\"",""),
-                     "state" : state,
+                     "job" : job.replace("\"","").lower(),
+                     "state" : Statement.state_traitement(state),
                      "party" : party,
                      "counters" : counters,
                      

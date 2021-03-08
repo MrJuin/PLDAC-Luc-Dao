@@ -2,10 +2,8 @@
 
 from utils.auteurs import Traitement
 import numpy as np
-#import seaborn as sns
 import matplotlib.pyplot as plt
-from utils.auteurs import make_dictio
-import pandas as pd
+
 
 def make_dictio_statement(statements):
     """
@@ -72,7 +70,6 @@ for v in dictio_context.values():
         dictio_context_inv[v] += 1
     except KeyError:
         dictio_context_inv[v] = 1
-'''    
 # Nbr de messages par theme
 plt.rcdefaults()
 fig, ax = plt.subplots(1,1, figsize = (10,30))
@@ -86,7 +83,7 @@ ax.set_title("Distribution des contextes")
 ax.set_xlabel("Nombre de messages")
 ax.set_ylabel("Sujets")
 plt.show()
-'''
+
 
 '''
 # Nbr de messages par vérité
@@ -95,12 +92,12 @@ fig, ax = plt.subplots(1,1, figsize = (15,10))
 
 space = 1
 y_pos = np.arange(0,len(dictio_fake)*space,space)
-ax.barh(y_pos, list(dictio_fake.values()), color = 'red')
-ax.set_yticks(y_pos)
-ax.set_yticklabels( list(dictio_fake.keys()), rotation = 0)
+ax.bar(y_pos, list(dictio_fake.values()), color = 'red')
+ax.set_xticks(y_pos)
+ax.set_xticklabels( list(dictio_fake.keys()), rotation = 0)
 ax.set_title("Distribution des vérités des messages")
-ax.set_xlabel("Nombre de messages")
-ax.set_ylabel("Vérité des messages")
+ax.set_ylabel("Nombre de messages")
+ax.set_xlabel("Vérité des messages")
 plt.show()
 '''
 '''
@@ -110,12 +107,12 @@ fig, ax = plt.subplots(1,1, figsize = (15,10))
 
 space = 1
 y_pos = np.arange(0,len(max_sentiment)*space,space)
-ax.barh(y_pos, list(max_sentiment.values()), color = 'red')
-ax.set_yticks(y_pos)
-ax.set_yticklabels( list(max_sentiment.keys()), rotation = 0)
+ax.bar(y_pos, list(max_sentiment.values()), color = 'red')
+ax.set_xticks(y_pos)
+ax.set_xticklabels( list(max_sentiment.keys()), rotation = 0)
 ax.set_title("Distribution des sentiments dominants des messages")
-ax.set_xlabel("Nombre de messages")
-ax.set_ylabel("Sentiments dominants")
+ax.set_ylabel("Nombre de messages")
+ax.set_xlabel("Sentiments dominants")
 plt.show()
 
 
@@ -125,15 +122,15 @@ fig, ax = plt.subplots(1,1, figsize = (15,10))
 
 space = 1
 y_pos = np.arange(0,len(sentiment_mean)*space,space)
-ax.barh(y_pos, list(sentiment_mean.values()), color = 'red')
-ax.set_yticks(y_pos)
-ax.set_yticklabels( list(sentiment_mean.keys()), rotation = 0)
+ax.bar(y_pos, list(sentiment_mean.values()), color = 'red')
+ax.set_xticks(y_pos)
+ax.set_xticklabels( list(sentiment_mean.keys()), rotation = 0)
 ax.set_title("Moyenne des sentiments")
-ax.set_xlabel("Valeurs")
-ax.set_ylabel("Sentiments")
+ax.set_ylabel("Valeurs")
+ax.set_xlabel("Sentiments")
 plt.show()
 '''
-
+'''
 # nombre de sujets avec un certain nombre de messages
 plt.rcdefaults()
 fig, ax = plt.subplots(1,1, figsize = (15,10))
@@ -150,3 +147,4 @@ ax.set_title("Nombre de contextes avec un certains nombre de messages associés"
 ax.set_xlabel("Nombre de contextes")
 ax.set_ylabel("Nombre de messages")
 plt.show()
+'''
