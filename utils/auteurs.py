@@ -77,7 +77,23 @@ class Statement(object):
     def length_unique_stem(self):
         return len(self.info["statement_2"])
 
-def make_dictio_author(statements, politicians = None):
+class Politician:
+    def __init__(self,name, twitter_username, account_start_time, account_id,
+                 sex, birthplace, birthday, age, instagram_username, 
+                 political_party):
+        
+        self.info = {"name" : str.lower(name).split(" "),
+                     "twitter" : twitter_username,
+                     "account_start_time" : account_start_time,
+                     "account_id" : account_id,
+                     "sex" : sex,
+                     "birthplace" : birthplace,
+                     "birthday" : birthday,
+                     "age" : age,
+                     "instagram_username" : instagram_username,
+                     "political_party" : political_party}
+
+def make_author_dico(statements, politicians = None):
     """
     Prend une liste de Statement et une liste de Politican.
     Crée deux dictionnaires pour chaque liste rangé par nom
@@ -100,10 +116,16 @@ def make_dictio_author(statements, politicians = None):
                 dictio[author]["state"] = statements[doc].info["state"]
                 dictio[author]["score"] = np.zeros(6)
                 dictio[author]["counter"] = np.float32(statements[doc].info["counters"])
+                dictio[author]["sentiments"]   = np.zeros(2)
+                dictio[author]["émotions"] = np.zeros(5)
                 dictio[author]["news"]  = np.array([], dtype = np.intc)
                         
-            n = num.index(statements[doc].info['fake_note'])
+            n  = num.index(statements[doc].info['fake_note'])
+            n2 = statements[doc].info['sentiment_code']
             dictio[author]["score"][n] += 1
+            dictio[author]["émotions"] += np.float64(statements[doc].info["sentiments"])
+            if n2 != '':
+                dictio[author]["sentiments"][int(n2 == '_POS_')] += 1
             dictio[author]["news"] = np.append(dictio[author]["news"], doc)
             
     if politicians:
@@ -114,38 +136,28 @@ def make_dictio_author(statements, politicians = None):
     return dictio, dictio2
     
 def make_author_database(statements):
-    dict_statement, dict_politician = make_dictio_author(statements, None)
+    """
+    Prend un statements et retourne un dictionnaire de liste d'auteurs, jobs, ...
+    (fr)
+    """
+    dict_statement, dict_politician = make_author_dico(statements, None)
     dictio = {'author' : [], 'job' : [], 'state' : [], 'counter' : [],\
-              'score' : [], 'nbr_publi' : [], 'party' : []}
+              'score' : [], 'nbr_publi' : [], 'party' : [], 'émotions' : [],
+              'sentiments' : []}
     for author, values in dict_statement.items():
         dictio['author'] += [author]
         dictio['job']    += [values['job']]
         dictio['state']  += [values['state']]
-        dictio['score']    += [values['score']]
+        dictio['score']      += [values['score']]
         dictio['counter']    += [values['counter']]
-        dictio['nbr_publi'] += [len(values['news'])]
-        dictio["party"] += [values['party']]
-    
+        dictio['nbr_publi']  += [len(values['news'])]
+        dictio["party"]      += [values['party']]
+        dictio['émotions']   += [values['émotions']]
+        dictio['sentiments'] += [values['sentiments']]
+        
     dictio['score'] = np.array(dictio['score'] ) 
     return dictio
 
-class Politician:
-    def __init__(self,name, twitter_username, account_start_time, account_id,
-                 sex, birthplace, birthday, age, instagram_username, 
-                 political_party):
-        
-        self.info = {"name" : str.lower(name).split(" "),
-                     "twitter" : twitter_username,
-                     "account_start_time" : account_start_time,
-                     "account_id" : account_id,
-                     "sex" : sex,
-                     "birthplace" : birthplace,
-                     "birthday" : birthday,
-                     "age" : age,
-                     "instagram_username" : instagram_username,
-                     "political_party" : political_party}
-        
-        
 def acceptable_chars(c):
     return str.isalnum(c) or str.isspace(c)
 

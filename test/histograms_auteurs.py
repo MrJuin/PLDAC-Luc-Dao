@@ -6,7 +6,7 @@ Created on Mon Mar  1 19:01:07 2021
 """
 from utils.auteurs import Traitement
 import numpy as np
-#import seaborn as sns
+import seaborn as sns
 import matplotlib.pyplot as plt
 from utils.auteurs import make_author_database
 
@@ -35,10 +35,10 @@ nbr_fois_publi = np.histogram(nbr_fois_publi, bins = max(nbr_fois_publi)//10 -1)
 
 
 # Nbr de métier par nombre de personne par job
-
+sns.set_theme()
 fig, ax = plt.subplots(1,1, figsize=(15,5))
 ax.set_yscale('log')
-ax.bar(nbr_fois_job[1][:-1]  ,height = nbr_fois_job[0]  , width = 0.5, color = 'red')
+ax.bar(nbr_fois_job[1][:-1]  ,height = nbr_fois_job[0]  , width = 0.5, color =(1, 0.25, 0.25))
 ax.set_xticks(nbr_fois_job[1][:-1])
 
 ax.set_title("Histogramme de la répartition du nombre de métier par nombre de personne le possédant dans notre base de donnée en échelle log")
@@ -47,9 +47,10 @@ ax.set_ylabel("nombre de métiers")
 plt.show()
 
 # Nbr de publi par nombre de personne par job
+sns.set_theme()
 fig, ax = plt.subplots(1,1, figsize=(15,5))
 ax.set_yscale('log')
-ax.bar(nbr_fois_publi[1][:-1]  ,height = nbr_fois_publi[0]  , width = 10, color = 'red')
+ax.bar(nbr_fois_publi[1][:-1]  ,height = nbr_fois_publi[0]  , width = 10, color=(1, 0.25, 0.25))
 #ax.set_xticks(nbr_fois_publi[1][:-1])
 
 ax.set_title("Histogramme de la répartition du nombre de personne par nombre de publication dans notre base de donnée en échelle log")
@@ -60,15 +61,16 @@ plt.show()
 
 # Nbr de personne par state
 plt.rcdefaults()
+sns.set_theme()
 fig, ax = plt.subplots(1,1, figsize = (10,15))
 
 y_pos = np.arange(len(name_state)-1)
-ax.barh(y_pos, nbr_fois_state[1:], color = 'red')
+ax.barh(y_pos, nbr_fois_state[1:], color=(1, 0.25, 0.25))
 ax.set_yticks(y_pos)
 ax.set_yticklabels(name_state[1:], rotation = 0)
 ax.set_title("Distribution des auteurs par états")
-ax.set_xlabel("Etats")
-ax.set_ylabel("Nombre d'auteurs")
+ax.set_ylabel("Etats")
+ax.set_xlabel("Nombre d'auteurs")
 
 
 plt.show()
@@ -91,10 +93,11 @@ plt.show()
 # Nbr de personne par partie politique
 
 plt.rcdefaults()
+sns.set_theme()
 fig, ax = plt.subplots(1,1, figsize = (10,15))
 
 y_pos = np.arange(len(name_party)-1)
-ax.barh(y_pos, nbr_fois_party[1:], color = 'red')
+ax.barh(y_pos, nbr_fois_party[1:], color=(1, 0.25, 0.25))
 ax.set_yticks(y_pos)
 ax.set_yticklabels(name_party[1:], rotation = 0)
 ax.set_title("Distribution des auteurs par partie")
